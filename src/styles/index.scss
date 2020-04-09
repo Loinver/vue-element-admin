@@ -1,0 +1,125 @@
+@import "./variables.scss";
+
+@import "./mixin.scss";
+@import "./transition.scss";
+@import "./element-ui.scss";
+@import "./sidebar.scss";
+@import "./base/base.scss";
+
+//设置body的默认字体和字体大小
+body {
+  font-size: 14px;
+  font-family: "PingFang SC", "system-ui", "-apple-system", "BlinkMacSystemFont", "Helvetica Neue", Helvetica,
+    sans-serif;
+  height: 100%;
+  text-rendering: optimizeLegibility;
+}
+
+label {
+  font-weight: 700;
+}
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/*在谷歌下移除input[number]的上下箭头*/
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0;
+}
+
+/*在firefox下移除input[number]的上下箭头*/
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+#app {
+  height: 100%;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+.no-padding {
+  padding: 0 !important;
+}
+
+.padding-content {
+  padding: 4px 0;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+a,
+a:focus,
+a:hover {
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+}
+
+div:focus {
+  outline: none;
+}
+
+.clearfix {
+  &:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
+}
+
+.c-gray {
+  color: #909399;
+}
+
+.table-span {
+  padding: 8px 0;
+  display: inline-block;
+}
+
+// main-container global css
+.app-container {
+  padding: 20px;
+}
+
+.el-table th {
+  background-color: #f5f7fa;
+}
+
+.el-dialog {
+  max-height: calc(100% - 100px);
+  display: flex;
+  flex-direction: column;
+}
+
+.el-dialog__header {
+  border-bottom: 1px solid #dedede;
+}
+
+.el-dialog__body {
+  max-height: calc(100% - 55px);
+  overflow-y: auto;
+}
+
+.upload-image {
+  max-width: 100%;
+  height: 200px;
+
+  img {
+    width: auto;
+  }
+}
