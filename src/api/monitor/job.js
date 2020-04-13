@@ -65,7 +65,6 @@ export function changeJobStatus(jobId, status) {
   })
 }
 
-
 // 定时任务立即执行一次
 export function runJob(jobId, jobGroup) {
   const data = {

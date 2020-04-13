@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: '农村社保金融惠民服务平台',
+  title: '后台管理系统',
 
   /**
    * @type {boolean} true | false

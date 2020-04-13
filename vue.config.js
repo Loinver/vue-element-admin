@@ -7,7 +7,7 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-const name = defaultSettings.title || '农村社保金融惠民服务平台' // page title
+const name = defaultSettings.title || '后台管理系统' // page title
 const isProduction = process.env.ENV === 'prod';
 
 // If your port is set to 80,
@@ -41,11 +41,21 @@ module.exports = {
     proxy: {
       // change xxx-api/login => mock/login
       // detail: https://cli.vuejs.org/config/#devserver-proxy
+      // [process.env.VUE_APP_BASE_API]: {
+      //   target: `http://yapi.demo.qunar.com/mock/95514`,
+      //   changeOrigin: true,
+      //   headers: {
+      //     Referer: 'http://yapi.demo.qunar.com/mock/95514'
+      //   },
+      //   pathRewrite: {
+      //     ['^' + process.env.VUE_APP_BASE_API]: ''
+      //   }
+      // }
       [process.env.VUE_APP_BASE_API]: {
-        target: `http://yapi.demo.qunar.com/mock/95514`,
+        target: `http://localhost:3000`,
         changeOrigin: true,
         headers: {
-          Referer: 'http://yapi.demo.qunar.com/mock/95514'
+          Referer: 'http://localhost:3000'
         },
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: ''
@@ -64,8 +74,8 @@ module.exports = {
         algorithm: 'gzip',
         test: productionGzipExtensions,
         threshold: 10240,
-        minRatio: 0.8,
-      }),
+        minRatio: 0.8
+      })
     )
     // #endregion
   },

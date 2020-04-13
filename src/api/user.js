@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 登录
 export function login(data) {
   return request({
-    url: '/login',
+    url: '/user/login',
     method: 'post',
     data
   })
@@ -19,7 +19,7 @@ export function getcode(data) {
 // 获取用户信息
 export function getInfo() {
   return request({
-    url: '/getInfo',
+    url: '/user/getInfo',
     method: 'get'
   })
 }

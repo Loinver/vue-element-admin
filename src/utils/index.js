@@ -247,7 +247,7 @@ export function getTime(type) {
 export function debounce(func, wait, immediate) {
   let timeout, args, context, timestamp, result
 
-  const later = function () {
+  const later = function() {
     // 据上一次触发时间间隔
     const last = +new Date() - timestamp
 
@@ -264,7 +264,7 @@ export function debounce(func, wait, immediate) {
     }
   }
 
-  return function (...args) {
+  return function(...args) {
     context = this
     timestamp = +new Date()
     const callNow = immediate && !timeout
@@ -359,7 +359,7 @@ export function isArray(param) {
  * 生成随机UUID
  */
 export function createUUID() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
     const r = Math.random() * 16 | 0;
     const v = c === 'x' ? r : (r & 0x3 | 0x8);
     return v.toString(16);
@@ -416,25 +416,25 @@ export function handleTree(data, id, parentId, children, rootId) {
   parentId = parentId || 'parentId'
   children = children || 'children'
   rootId = rootId || 0
-  //对源数据深度克隆
+  // 对源数据深度克隆
   const cloneData = JSON.parse(JSON.stringify(data))
-  //循环所有项
+  // 循环所有项
   const treeData = cloneData.filter(father => {
-    let branchArr = cloneData.filter(child => {
-      //返回每一项的子级数组
+    const branchArr = cloneData.filter(child => {
+      // 返回每一项的子级数组
       return father[id] === child[parentId]
     });
     branchArr.length > 0 ? father.children = branchArr : '';
-    //返回第一层
+    // 返回第一层
     return father[parentId] === rootId;
   });
-  return treeData != '' ? treeData : data;
+  return treeData !== '' ? treeData : data;
 }
 // 回显数据字典
 export function selectDictLabel(datas, value) {
   var actions = [];
   Object.keys(datas).map((key) => {
-    if (datas[key].dictValue == ('' + value)) {
+    if (datas[key].dictValue === ('' + value)) {
       actions.push(datas[key].dictLabel);
       return false;
     }
@@ -443,7 +443,7 @@ export function selectDictLabel(datas, value) {
 }
 // 表单重置
 export function resetForm(refName) {
-	if (this.$refs[refName]) {
-		this.$refs[refName].resetFields();
-	}
+  if (this.$refs[refName]) {
+    this.$refs[refName].resetFields();
+  }
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
+    <el-form ref="queryForm" :model="queryParams" :inline="true" label-width="68px">
       <el-form-item label="任务名称" prop="jobName">
         <el-input
           v-model="queryParams.jobName"
@@ -64,30 +64,30 @@
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button
+          v-hasPermi="['monitor:job:remove']"
           type="danger"
           icon="el-icon-delete"
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['monitor:job:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
+          v-hasPermi="['monitor:job:remove']"
           type="danger"
           icon="el-icon-delete"
           size="mini"
           @click="handleClean"
-          v-hasPermi="['monitor:job:remove']"
         >清空</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
+          v-hasPermi="['monitor:jobLog:export']"
           type="warning"
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['monitor:jobLog:export']"
         >导出</el-button>
       </el-col>
     </el-row>
@@ -108,11 +108,11 @@
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
+            v-hasPermi="['monitor:job:query']"
             size="mini"
             type="text"
             icon="el-icon-view"
             @click="handleView(scope.row)"
-            v-hasPermi="['monitor:job:query']"
           >详细</el-button>
         </template>
       </el-table-column>
@@ -151,7 +151,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="异常信息：" v-if="form.status == 1">{{ form.exceptionInfo }}</el-form-item>
+            <el-form-item v-if="form.status == 1" label="异常信息：">{{ form.exceptionInfo }}</el-form-item>
           </el-col>
         </el-row>
       </el-form>
@@ -196,9 +196,7 @@ export default {
         jobName: undefined,
         jobGroup: undefined,
         status: undefined
-      },
-      // 表单参数
-      form: {}
+      }
     };
   },
   created() {
@@ -215,10 +213,10 @@ export default {
     getList() {
       this.loading = true;
       listJobLog(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
-          this.jobLogList = response.rows;
-          this.total = response.total;
-          this.loading = false;
-        }
+        this.jobLogList = response.rows;
+        this.total = response.total;
+        this.loading = false;
+      }
       );
     },
     // 执行状态字典翻译
@@ -254,41 +252,41 @@ export default {
     handleDelete(row) {
       const jobLogIds = this.ids;
       this.$confirm('是否确认删除调度日志编号为"' + jobLogIds + '"的数据项?', "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return delJobLog(jobLogIds);
-        }).then(() => {
-          this.getList();
-          this.msgSuccess("删除成功");
-        }).catch(function() {});
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(function() {
+        return delJobLog(jobLogIds);
+      }).then(() => {
+        this.getList();
+        this.msgSuccess("删除成功");
+      }).catch(function() {});
     },
     /** 清空按钮操作 */
     handleClean() {
       this.$confirm("是否确认清空所有调度日志数据项?", "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return cleanJobLog();
-        }).then(() => {
-          this.getList();
-          this.msgSuccess("清空成功");
-        }).catch(function() {});
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(function() {
+        return cleanJobLog();
+      }).then(() => {
+        this.getList();
+        this.msgSuccess("清空成功");
+      }).catch(function() {});
     },
     /** 导出按钮操作 */
     handleExport() {
       const queryParams = this.queryParams;
       this.$confirm("是否确认导出所有调度日志数据项?", "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return exportJobLog(queryParams);
-        }).then(response => {
-          this.download(response.msg);
-        }).catch(function() {});
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(function() {
+        return exportJobLog(queryParams);
+      }).then(response => {
+        this.download(response.msg);
+      }).catch(function() {});
     }
   }
 };

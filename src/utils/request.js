@@ -46,7 +46,7 @@ service.interceptors.response.use(
           type: 'error',
           duration: 5 * 1000
         })
-        return Promise.reject(res.data)
+        return Promise.reject(res)
       case 401:
         // 未登录或过期
         Message({
@@ -69,14 +69,14 @@ service.interceptors.response.use(
           type: 'error',
           duration: 5 * 1000
         })
-        return Promise.reject(res.data)
+        return Promise.reject(res)
       default:
         Message({
           message: res.msg || '请求错误',
           type: 'error',
           duration: 5 * 1000
         })
-        return Promise.reject(res.data)
+        return Promise.reject(res)
     }
   },
   error => {
@@ -85,11 +85,11 @@ service.interceptors.response.use(
       // 请求超时状态
       if (error.message.includes('timeout')) {
         Message.error('请求超时，请检查网络是否连接正常')
-        return Promise.reject({ msg: '请求超时' })
+        return Promise.reject({ msg: '请求超时，请检查网络是否连接正常' })
       } else {
         // 可以展示断网组件
         Message.error('请求失败，请检查网络是否已连接')
-        return Promise.reject({ msg: '断网了' })
+        return Promise.reject({ msg: '请求失败，请检查网络是否已连接' })
       }
     }
     Message.error(`${error.response.status}${error.response.statusText}`)

@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
+    <el-form ref="queryForm" :model="queryParams" :inline="true" label-width="68px">
       <el-form-item label="任务名称" prop="jobName">
         <el-input
           v-model="queryParams.jobName"
@@ -39,49 +39,49 @@
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button
+          v-hasPermi="['monitor:job:add']"
           type="primary"
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['monitor:job:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
+          v-hasPermi="['monitor:job:edit']"
           type="success"
           icon="el-icon-edit"
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['monitor:job:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
+          v-hasPermi="['monitor:job:remove']"
           type="danger"
           icon="el-icon-delete"
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['monitor:job:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
+          v-hasPermi="['monitor:job:export']"
           type="warning"
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['monitor:job:export']"
         >导出</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
+          v-hasPermi="['monitor:job:query']"
           type="info"
           icon="el-icon-s-operation"
           size="mini"
           @click="handleJobLog"
-          v-hasPermi="['monitor:job:query']"
         >日志</el-button>
       </el-col>
     </el-row>
@@ -106,18 +106,18 @@
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
+            v-hasPermi="['monitor:job:edit']"
             size="mini"
             type="text"
             icon="el-icon-caret-right"
             @click="handleRun(scope.row)"
-            v-hasPermi="['monitor:job:edit']"
           >执行一次</el-button>
           <el-button
+            v-hasPermi="['monitor:job:query']"
             size="mini"
             type="text"
             icon="el-icon-view"
             @click="handleView(scope.row)"
-            v-hasPermi="['monitor:job:query']"
           >详细</el-button>
         </template>
       </el-table-column>
@@ -197,7 +197,7 @@
                   v-for="dict in statusOptions"
                   :key="dict.dictValue"
                   :label="dict.dictValue"
-                >{{dict.dictLabel}}</el-radio>
+                >{{ dict.dictLabel }}</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -371,35 +371,35 @@ export default {
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.jobId);
-      this.single = selection.length != 1;
+      this.single = selection.length !== 1;
       this.multiple = !selection.length;
     },
     // 任务状态修改
     handleStatusChange(row) {
-      let text = row.status === "0" ? "启用" : "停用";
+      const text = row.status === "0" ? "启用" : "停用";
       this.$confirm('确认要"' + text + '""' + row.jobName + '"任务吗?', "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return changeJobStatus(row.jobId, row.status);
-        }).then(() => {
-          this.msgSuccess(text + "成功");
-        }).catch(function() {
-          row.status = row.status === "0" ? "1" : "0";
-        });
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(function() {
+        return changeJobStatus(row.jobId, row.status);
+      }).then(() => {
+        this.msgSuccess(text + "成功");
+      }).catch(function() {
+        row.status = row.status === "0" ? "1" : "0";
+      });
     },
     /* 立即执行一次 */
     handleRun(row) {
       this.$confirm('确认要立即执行一次"' + row.jobName + '"任务吗?', "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return runJob(row.jobId, row.jobGroup);
-        }).then(function() {
-          this.msgSuccess("执行成功");
-        }).catch(function() {});
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(function() {
+        return runJob(row.jobId, row.jobGroup);
+      }).then(function() {
+        this.msgSuccess("执行成功");
+      }).catch(function() {});
     },
     /** 任务详细信息 */
     handleView(row) {
@@ -432,7 +432,7 @@ export default {
     submitForm: function() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          if (this.form.jobId != undefined) {
+          if (this.form.jobId !== undefined) {
             updateJob(this.form).then(response => {
               if (response.code === 200) {
                 this.msgSuccess("修改成功");
@@ -460,28 +460,28 @@ export default {
     handleDelete(row) {
       const jobIds = row.jobId || this.ids;
       this.$confirm('是否确认删除定时任务编号为"' + jobIds + '"的数据项?', "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return delJob(jobIds);
-        }).then(() => {
-          this.getList();
-          this.msgSuccess("删除成功");
-        }).catch(function() {});
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(function() {
+        return delJob(jobIds);
+      }).then(() => {
+        this.getList();
+        this.msgSuccess("删除成功");
+      }).catch(function() {});
     },
     /** 导出按钮操作 */
     handleExport() {
       const queryParams = this.queryParams;
       this.$confirm("是否确认导出所有定时任务数据项?", "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return exportJob(queryParams);
-        }).then(response => {
-          this.download(response.msg);
-        }).catch(function() {});
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(function() {
+        return exportJob(queryParams);
+      }).then(response => {
+        this.download(response.msg);
+      }).catch(function() {});
     }
   }
 };

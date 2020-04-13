@@ -23,11 +23,11 @@
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button
+          v-hasPermi="['system:menu:add']"
           type="primary"
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['system:menu:add']"
         >新增</el-button>
       </el-form-item>
     </el-form>
@@ -55,25 +55,25 @@
       <el-table-column width="220" label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
+            v-hasPermi="['system:menu:edit']"
             size="mini"
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['system:menu:edit']"
           >修改</el-button>
           <el-button
+            v-hasPermi="['system:menu:add']"
             size="mini"
             type="text"
             icon="el-icon-plus"
             @click="handleAdd(scope.row)"
-            v-hasPermi="['system:menu:add']"
           >新增</el-button>
           <el-button
+            v-hasPermi="['system:menu:remove']"
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['system:menu:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -148,7 +148,7 @@
               <el-input v-model="form.path" placeholder="请输入路由地址" />
             </el-form-item>
           </el-col>
-          <el-col :span="12" v-if="form.menuType == 'C'">
+          <el-col v-if="form.menuType == 'C'" :span="12">
             <el-form-item label="组件路径" prop="component">
               <el-input v-model="form.component" placeholder="请输入组件路径" />
             </el-form-item>
@@ -165,7 +165,7 @@
                   v-for="dict in visibleOptions"
                   :key="dict.dictValue"
                   :label="dict.dictValue"
-                >{{dict.dictLabel}}</el-radio>
+                >{{ dict.dictLabel }}</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -266,7 +266,7 @@ export default {
     },
     // 菜单显示状态字典翻译
     visibleFormat(row, column) {
-      if (row.menuType == "F") {
+      if (row.menuType === "F") {
         return "";
       }
       return this.selectDictLabel(this.visibleOptions, row.visible);
@@ -318,7 +318,7 @@ export default {
     submitForm: function() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          if (this.form.menuId != undefined) {
+          if (this.form.menuId !== undefined) {
             updateMenu(this.form).then(response => {
               if (response.code === 200) {
                 this.msgSuccess("修改成功");

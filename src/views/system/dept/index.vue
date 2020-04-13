@@ -29,12 +29,12 @@
           @click="handleQuery"
         >搜索</el-button>
         <el-button
+          v-hasPermi="['system:dept:add']"
           class="filter-item"
           type="primary"
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['system:dept:add']"
         >新增</el-button>
       </el-form-item>
     </el-form>
@@ -56,27 +56,27 @@
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button 
-            size="mini" 
-            type="text" 
-            icon="el-icon-edit" 
-            @click="handleUpdate(scope.row)"
+          <el-button
             v-hasPermi="['system:dept:edit']"
+            size="mini"
+            type="text"
+            icon="el-icon-edit"
+            @click="handleUpdate(scope.row)"
           >修改</el-button>
-          <el-button 
-            size="mini" 
-            type="text" 
-            icon="el-icon-plus" 
-            @click="handleAdd(scope.row)"
+          <el-button
             v-hasPermi="['system:dept:add']"
+            size="mini"
+            type="text"
+            icon="el-icon-plus"
+            @click="handleAdd(scope.row)"
           >新增</el-button>
           <el-button
             v-if="scope.row.parentId != 0"
+            v-hasPermi="['system:dept:remove']"
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['system:dept:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -86,7 +86,7 @@
     <el-dialog :title="title" :visible.sync="open" width="600px">
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-row>
-          <el-col :span="24" v-if="form.parentId !== 0">
+          <el-col v-if="form.parentId !== 0" :span="24">
             <el-form-item label="上级部门" prop="parentId">
               <treeselect v-model="form.parentId" :options="deptOptions" :normalizer="normalizer" placeholder="选择上级部门" />
             </el-form-item>
@@ -123,7 +123,7 @@
                   v-for="dict in statusOptions"
                   :key="dict.dictValue"
                   :label="dict.dictValue"
-                >{{dict.dictLabel}}</el-radio>
+                >{{ dict.dictLabel }}</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -257,7 +257,7 @@ export default {
     handleAdd(row) {
       this.reset();
       this.getTreeselect();
-      if (row != undefined) {
+      if (row !== undefined) {
         this.form.parentId = row.deptId;
       }
       this.open = true;
@@ -277,7 +277,7 @@ export default {
     submitForm: function() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          if (this.form.deptId != undefined) {
+          if (this.form.deptId !== undefined) {
             updateDept(this.form).then(response => {
               if (response.code === 200) {
                 this.msgSuccess("修改成功");
@@ -304,15 +304,15 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       this.$confirm('是否确认删除名称为"' + row.deptName + '"的数据项?', "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return delDept(row.deptId);
-        }).then(() => {
-          this.getList();
-          this.msgSuccess("删除成功");
-        }).catch(function() {});
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(function() {
+        return delDept(row.deptId);
+      }).then(() => {
+        this.getList();
+        this.msgSuccess("删除成功");
+      }).catch(function() {});
     }
   }
 };

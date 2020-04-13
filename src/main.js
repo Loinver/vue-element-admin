@@ -5,7 +5,7 @@ import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/zh-CN' // lang i18n
 import '@/styles/index.scss' // global css
-import { handleTree, selectDictLabel, parseTime ,resetForm} from './utils/index'
+import { handleTree, selectDictLabel, parseTime, resetForm } from './utils/index'
 
 import App from './App'
 import store from './store'

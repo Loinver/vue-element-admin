@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img v-bind:src="options.img" @click="editCropper()" title="点击上传头像" class="img-circle img-lg" />
+    <img :src="options.img" title="点击上传头像" class="img-circle img-lg" @click="editCropper()" />
     <el-dialog :title="title" :visible.sync="open" width="800px">
       <el-row>
         <el-col :xs="24" :md="12" :style="{height: '350px'}">
@@ -8,10 +8,10 @@
             ref="cropper"
             :img="options.img"
             :info="true"
-            :autoCrop="options.autoCrop"
-            :autoCropWidth="options.autoCropWidth"
-            :autoCropHeight="options.autoCropHeight"
-            :fixedBox="options.fixedBox"
+            :auto-crop="options.autoCrop"
+            :auto-crop-width="options.autoCropWidth"
+            :auto-crop-height="options.autoCropHeight"
+            :fixed-box="options.fixedBox"
             @realTime="realTime"
           />
         </el-col>
@@ -24,7 +24,12 @@
       <br />
       <el-row>
         <el-col :lg="2" :md="2">
-          <el-upload action="#" :http-request="requestUpload" :show-file-list="false" :before-upload="beforeUpload">
+          <el-upload
+            action="#"
+            :http-request="requestUpload"
+            :show-file-list="false"
+            :before-upload="beforeUpload"
+          >
             <el-button size="small">
               上传
               <i class="el-icon-upload el-icon--right"></i>
@@ -60,7 +65,10 @@ export default {
   components: { VueCropper },
   props: {
     user: {
-      type: Object
+      type: Object,
+      default: function() {
+        return {};
+      }
     }
   },
   data() {
@@ -70,7 +78,7 @@ export default {
       // 弹出层标题
       title: "修改头像",
       options: {
-        img: store.getters.avatar, //裁剪图片的地址
+        img: store.getters.avatar, // 裁剪图片的地址
         autoCrop: true, // 是否默认生成截图框
         autoCropWidth: 200, // 默认生成截图框宽度
         autoCropHeight: 200, // 默认生成截图框高度
@@ -85,8 +93,7 @@ export default {
       this.open = true;
     },
     // 覆盖默认的上传行为
-    requestUpload() {
-    },
+    requestUpload() {},
     // 向左旋转
     rotateLeft() {
       this.$refs.cropper.rotateLeft();
@@ -102,7 +109,7 @@ export default {
     },
     // 上传预处理
     beforeUpload(file) {
-      if (file.type.indexOf("image/") == -1) {
+      if (file.type.indexOf("image/") === -1) {
         this.msgError("文件格式错误，请上传图片类型,如：JPG，PNG后缀的文件。");
       } else {
         const reader = new FileReader();
@@ -115,7 +122,7 @@ export default {
     // 上传图片
     uploadImg() {
       this.$refs.cropper.getCropBlob(data => {
-        let formData = new FormData();
+        const formData = new FormData();
         formData.append("avatarfile", data);
         uploadAvatar(formData).then(response => {
           if (response.code === 200) {

@@ -45,7 +45,7 @@ const actions = {
       getInfo().then(response => {
         if (response.roles && response.roles.length > 0) { // 验证返回的roles是否是一个非空数组
           commit('SET_ROLES', response.roles)
-            commit('SET_PERMISSIONS', response.permissions)
+          commit('SET_PERMISSIONS', response.permissions)
         } else {
           reject(new Error('无权限!'))
           commit('SET_ROLES', ['ROLE_DEFAULT'])

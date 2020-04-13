@@ -15,11 +15,11 @@
         </div>
         <div class="head-container">
           <el-tree
+            ref="tree"
             :data="deptOptions"
             :props="defaultProps"
             :expand-on-click-node="false"
             :filter-node-method="filterNode"
-            ref="tree"
             default-expand-all
             @node-click="handleNodeClick"
           />
@@ -27,7 +27,7 @@
       </el-col>
       <!--用户数据-->
       <el-col :span="20" :xs="24">
-        <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
+        <el-form ref="queryForm" :model="queryParams" :inline="true" label-width="68px">
           <el-form-item label="用户名称" prop="userName">
             <el-input
               v-model="queryParams.userName"
@@ -85,49 +85,49 @@
         <el-row :gutter="10" class="mb8">
           <el-col :span="1.5">
             <el-button
+              v-hasPermi="['system:user:add']"
               type="primary"
               icon="el-icon-plus"
               size="mini"
               @click="handleAdd"
-              v-hasPermi="['system:user:add']"
             >新增</el-button>
           </el-col>
           <el-col :span="1.5">
             <el-button
+              v-hasPermi="['system:user:edit']"
               type="success"
               icon="el-icon-edit"
               size="mini"
               :disabled="single"
               @click="handleUpdate"
-              v-hasPermi="['system:user:edit']"
             >修改</el-button>
           </el-col>
           <el-col :span="1.5">
             <el-button
+              v-hasPermi="['system:user:remove']"
               type="danger"
               icon="el-icon-delete"
               size="mini"
               :disabled="multiple"
               @click="handleDelete"
-              v-hasPermi="['system:user:remove']"
             >删除</el-button>
           </el-col>
           <el-col :span="1.5">
             <el-button
+              v-hasPermi="['system:user:import']"
               type="info"
               icon="el-icon-upload2"
               size="mini"
               @click="handleImport"
-              v-hasPermi="['system:user:import']"
             >导入</el-button>
           </el-col>
           <el-col :span="1.5">
             <el-button
+              v-hasPermi="['system:user:export']"
               type="warning"
               icon="el-icon-download"
               size="mini"
               @click="handleExport"
-              v-hasPermi="['system:user:export']"
             >导出</el-button>
           </el-col>
         </el-row>
@@ -162,26 +162,26 @@
           >
             <template slot-scope="scope">
               <el-button
+                v-hasPermi="['system:user:edit']"
                 size="mini"
                 type="text"
                 icon="el-icon-edit"
                 @click="handleUpdate(scope.row)"
-                v-hasPermi="['system:user:edit']"
               >修改</el-button>
               <el-button
                 v-if="scope.row.userId !== 1"
+                v-hasPermi="['system:user:remove']"
                 size="mini"
                 type="text"
                 icon="el-icon-delete"
                 @click="handleDelete(scope.row)"
-                v-hasPermi="['system:user:remove']"
               >删除</el-button>
               <el-button
+                v-hasPermi="['system:user:resetPwd']"
                 size="mini"
                 type="text"
                 icon="el-icon-key"
                 @click="handleResetPwd(scope.row)"
-                v-hasPermi="['system:user:resetPwd']"
               >重置</el-button>
             </template>
           </el-table-column>
@@ -250,7 +250,7 @@
                   v-for="dict in statusOptions"
                   :key="dict.dictValue"
                   :label="dict.dictValue"
-                >{{dict.dictLabel}}</el-radio>
+                >{{ dict.dictLabel }}</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -313,11 +313,11 @@
           将文件拖到此处，或
           <em>点击上传</em>
         </div>
-        <div class="el-upload__tip" slot="tip">
+        <div slot="tip" class="el-upload__tip">
           <el-checkbox v-model="upload.updateSupport" />是否更新已经存在的用户数据
           <el-link type="info" style="font-size:12px" @click="importTemplate">下载模板</el-link>
         </div>
-        <div class="el-upload__tip" style="color:red" slot="tip">提示：仅允许导入“xls”或“xlsx”格式文件！</div>
+        <div slot="tip" class="el-upload__tip" style="color:red">提示：仅允许导入“xls”或“xlsx”格式文件！</div>
       </el-upload>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitFileForm">确 定</el-button>
@@ -458,10 +458,10 @@ export default {
     getList() {
       this.loading = true;
       listUser(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
-          this.userList = response.rows;
-          this.total = response.total;
-          this.loading = false;
-        }
+        this.userList = response.rows;
+        this.total = response.total;
+        this.loading = false;
+      }
       );
     },
     /** 查询部门下拉树结构 */
@@ -482,18 +482,18 @@ export default {
     },
     // 用户状态修改
     handleStatusChange(row) {
-      let text = row.status === "0" ? "启用" : "停用";
+      const text = row.status === "0" ? "启用" : "停用";
       this.$confirm('确认要"' + text + '""' + row.userName + '"用户吗?', "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return changeUserStatus(row.userId, row.status);
-        }).then(() => {
-          this.msgSuccess(text + "成功");
-        }).catch(function() {
-          row.status = row.status === "0" ? "1" : "0";
-        });
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(function() {
+        return changeUserStatus(row.userId, row.status);
+      }).then(() => {
+        this.msgSuccess(text + "成功");
+      }).catch(function() {
+        row.status = row.status === "0" ? "1" : "0";
+      });
     },
     // 取消按钮
     cancel() {
@@ -532,7 +532,7 @@ export default {
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.userId);
-      this.single = selection.length != 1;
+      this.single = selection.length !== 1;
       this.multiple = !selection.length;
     },
     /** 新增按钮操作 */
@@ -569,20 +569,20 @@ export default {
         confirmButtonText: "确定",
         cancelButtonText: "取消"
       }).then(({ value }) => {
-          resetUserPwd(row.userId, value).then(response => {
-            if (response.code === 200) {
-              this.msgSuccess("修改成功，新密码是：" + value);
-            } else {
-              this.msgError(response.msg);
-            }
-          });
-        }).catch(() => {});
+        resetUserPwd(row.userId, value).then(response => {
+          if (response.code === 200) {
+            this.msgSuccess("修改成功，新密码是：" + value);
+          } else {
+            this.msgError(response.msg);
+          }
+        });
+      }).catch(() => {});
     },
     /** 提交按钮 */
     submitForm: function() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          if (this.form.userId != undefined) {
+          if (this.form.userId !== undefined) {
             updateUser(this.form).then(response => {
               if (response.code === 200) {
                 this.msgSuccess("修改成功");
@@ -610,28 +610,28 @@ export default {
     handleDelete(row) {
       const userIds = row.userId || this.ids;
       this.$confirm('是否确认删除用户编号为"' + userIds + '"的数据项?', "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return delUser(userIds);
-        }).then(() => {
-          this.getList();
-          this.msgSuccess("删除成功");
-        }).catch(function() {});
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(function() {
+        return delUser(userIds);
+      }).then(() => {
+        this.getList();
+        this.msgSuccess("删除成功");
+      }).catch(function() {});
     },
     /** 导出按钮操作 */
     handleExport() {
       const queryParams = this.queryParams;
       this.$confirm('是否确认导出所有用户数据项?', "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return exportUser(queryParams);
-        }).then(response => {
-          this.download(response.msg);
-        }).catch(function() {});
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(function() {
+        return exportUser(queryParams);
+      }).then(response => {
+        this.download(response.msg);
+      }).catch(function() {});
     },
     /** 导入按钮操作 */
     handleImport() {
