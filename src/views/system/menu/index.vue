@@ -163,9 +163,9 @@
               <el-radio-group v-model="form.visible">
                 <el-radio
                   v-for="dict in visibleOptions"
-                  :key="dict.dictValue"
-                  :label="dict.dictValue"
-                >{{ dict.dictLabel }}</el-radio>
+                  :key="dict.value"
+                  :label="dict.value"
+                >{{ dict.label }}</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -206,8 +206,17 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
-      // 菜单状态数据字典
-      visibleOptions: [],
+      // 菜单状态
+      visibleOptions: [
+        {
+          label: "显示",
+          value: 1
+        },
+        {
+          label: "隐藏",
+          value: 0
+        }
+      ],
       // 查询参数
       queryParams: {
         menuName: undefined,
@@ -239,7 +248,7 @@ export default {
     getList() {
       this.loading = true;
       listMenu(this.queryParams).then(res => {
-        // this.menuList = this.handleTree(response.menuList, "menuId");
+        // this.menuList = this.handleTree(res.menuList, "menuId");
         this.menuList = res.menuList;
         this.loading = false;
       });

@@ -126,8 +126,7 @@ module.exports = {
       .when(isProduction,
         config => {
           const now = new Date();
-          const version = `${now.getFullYear()}${now.getMonth() + 1}${now.getDate()}${now.getHours()}${now.getMinutes()}${now.getSeconds()}`;
-          config
+          const version = [[now.getFullYear(), now.getMonth() + 1, now.getDate()].join('-'), [now.getHours(), now.getMinutes(), now.getSeconds()].join(':')].join('|').replace(/(?=\b\d\b)/g, '0'); config
             .plugin('ScriptExtHtmlWebpackPlugin')
             .after('html')
             .use('script-ext-html-webpack-plugin', [{
