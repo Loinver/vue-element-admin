@@ -12,8 +12,8 @@ yarn run serve
 
 ### Compiles and minifies for production
 ```
-yarn run build:uat  (测试环境)1
-yarn run build:prod (生产环境)1
+yarn run build:uat  (测试环境)
+yarn run build:prod (生产环境)
 ```
 
 ### Lints and fixes files

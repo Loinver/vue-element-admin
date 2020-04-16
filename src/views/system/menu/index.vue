@@ -248,8 +248,7 @@ export default {
     getList() {
       this.loading = true;
       listMenu(this.queryParams).then(res => {
-        // this.menuList = this.handleTree(res.menuList, "menuId");
-        this.menuList = res.menuList;
+        this.menuList = this.handleTree(res.menuList, "menuId");
         this.loading = false;
       });
     },
@@ -269,7 +268,7 @@ export default {
       listMenu().then(response => {
         this.menuOptions = [];
         const menu = { menuId: 0, menuName: "主类目", children: [] };
-        menu.children = this.handleTree(response, "menuId");
+        menu.children = this.handleTree(response.menuList, "menuId");
         this.menuOptions.push(menu);
       });
     },
@@ -295,7 +294,7 @@ export default {
         menuType: "M",
         orderNum: undefined,
         isFrame: "1",
-        visible: "0"
+        visible: 0
       };
       this.resetForm("form");
     },

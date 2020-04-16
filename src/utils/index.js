@@ -366,6 +366,15 @@ export function createUUID() {
   });
 }
 /**
+ * 判断对象是否包含某个属性
+ * @param {*} obj
+ * @param {*} key
+ */
+export function hasProperty(object, key) {
+  const has = Object.prototype.hasOwnProperty;
+  return has.call(object, key)
+}
+/**
  * @description 检测字符串
  * @param str 待处理字符串
  * @param type 待检测的类型
@@ -412,6 +421,7 @@ export function positiveInteger(str) {
  * @param {*} rootId 根Id 默认 0
  */
 export function handleTree(data, id, parentId, children, rootId) {
+  // debugger
   id = id || 'id'
   parentId = parentId || 'parentId'
   children = children || 'children'
