@@ -30,8 +30,11 @@
 
 .fixed-width {
   .el-button--mini {
-    padding: 7px 10px;
+    padding: 7px 5px;
     width: 60px;
+  }
+  .el-button + .el-button {
+    margin-left: 5px;
   }
 }
 
@@ -69,7 +72,7 @@
 // dropdown
 .el-dropdown-menu {
   a {
-    display: block
+    display: block;
   }
 }
 
