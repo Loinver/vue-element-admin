@@ -4067,10 +4067,10 @@ functional-red-black-tree@^1.0.1:
   resolved "http://r.cnpmjs.org/functional-red-black-tree/download/functional-red-black-tree-1.0.1.tgz#1b0ab3bd553b2a0d6399d29c0e3ea0b252078327"
   integrity sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=
 
-fuse.js@^6.0.0:
-  version "6.0.0"
-  resolved "http://r.cnpmjs.org/fuse.js/download/fuse.js-6.0.0.tgz#6fc16cd7555648deda392892402d4188553552b2"
-  integrity sha1-b8Fs11VWSN7aOSiSQC1BiFU1UrI=
+fuse.js@^6.0.3:
+  version "6.0.3"
+  resolved "https://registry.npm.taobao.org/fuse.js/download/fuse.js-6.0.3.tgz#6c19f86a08e86a0af8dab9412e5a389d6d4112f9"
+  integrity sha1-bBn4agjoagr42rlBLlo4nW1BEvk=
 
 fuzzysearch@^1.0.3:
   version "1.0.3"
@@ -7429,10 +7429,10 @@ sass-loader@^8.0.2:
     schema-utils "^2.6.1"
     semver "^6.3.0"
 
-sass@^1.26.5:
-  version "1.26.7"
-  resolved "http://r.cnpmjs.org/sass/download/sass-1.26.7.tgz#d3c9f3dd9771632bfb60af8746c308da3765166d"
-  integrity sha1-08nz3ZdxYyv7YK+HRsMI2jdlFm0=
+sass@^1.26.8:
+  version "1.26.8"
+  resolved "https://registry.npm.taobao.org/sass/download/sass-1.26.8.tgz#312652530721f9568d4c4000b0db07ec6eb23325"
+  integrity sha1-MSZSUwch+VaNTEAAsNsH7G6yMyU=
   dependencies:
     chokidar ">=2.0.0 <4.0.0"
 
@@ -8674,10 +8674,10 @@ vm-browserify@^1.0.1:
   resolved "http://r.cnpmjs.org/vm-browserify/download/vm-browserify-1.1.2.tgz#78641c488b8e6ca91a75f511e7a3b32a86e5dda0"
   integrity sha1-eGQcSIuObKkadfUR56OzKobl3aA=
 
-vue-cropper@^0.5.2:
-  version "0.5.3"
-  resolved "http://r.cnpmjs.org/vue-cropper/download/vue-cropper-0.5.3.tgz#f2a51eff95d28a0c5a7e6698e8281d0d0caec4a1"
-  integrity sha1-8qUe/5XSigxafmaY6CgdDQyuxKE=
+vue-cropper@^0.5.4:
+  version "0.5.4"
+  resolved "https://registry.npm.taobao.org/vue-cropper/download/vue-cropper-0.5.4.tgz#0db3776894eea8673a3203a1513882a0eb4558ad"
+  integrity sha1-DbN3aJTuqGc6MgOhUTiCoOtFWK0=
 
 vue-eslint-parser@^7.0.0:
   version "7.1.0"

@@ -27,10 +27,11 @@ module.exports = {
    * Detail: https://cli.vuejs.org/config/#publicpath
    */
   publicPath: process.env.baseUrl,
+
   outputDir: process.env.outputDir,
   assetsDir: 'static',
-  lintOnSave: isProduction,
   productionSourceMap: false,
+
   devServer: {
     port: port,
     open: true,
@@ -63,6 +64,7 @@ module.exports = {
       }
     }
   },
+
   configureWebpack: (config) => {
     config.name = name;
     config.entry.app = ['babel-polyfill', './src/main.js'];
@@ -79,6 +81,7 @@ module.exports = {
     )
     // #endregion
   },
+
   chainWebpack(config) {
     config.plugins.delete('preload') // TODO: need test
     config.plugins.delete('prefetch') // TODO: need test
