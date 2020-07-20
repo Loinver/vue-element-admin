@@ -1,12 +1,8 @@
 /**
- * Created by PanJiaChen on 16/11/18.
- */
-
-/**
  * Parse the time to string
  * @param {(Object|string|number)} time
  * @param {string} cFormat
- * @returns {string}
+ * @returns {string | null}
  */
 export function parseTime(time, cFormat) {
   if (arguments.length === 0) {
@@ -17,8 +13,15 @@ export function parseTime(time, cFormat) {
   if (typeof time === 'object') {
     date = time
   } else {
-    if ((typeof time === 'string') && (/^[0-9]+$/.test(time))) {
-      time = parseInt(time)
+    if ((typeof time === 'string')) {
+      if ((/^[0-9]+$/.test(time))) {
+        // support "1548221490638"
+        time = parseInt(time)
+      } else {
+        // support safari
+        // https://stackoverflow.com/questions/4310953/invalid-date-in-safari
+        time = time.replace(new RegExp(/-/gm), '/')
+      }
     }
     if ((typeof time === 'number') && (time.toString().length === 10)) {
       time = time * 1000
@@ -34,18 +37,77 @@ export function parseTime(time, cFormat) {
     s: date.getSeconds(),
     a: date.getDay()
   }
-  const time_str = format.replace(/{(y|m|d|h|i|s|a)+}/g, (result, key) => {
-    let value = formatObj[key]
+  const time_str = format.replace(/{([ymdhisa])+}/g, (result, key) => {
+    const value = formatObj[key]
     // Note: getDay() returns 0 on Sunday
     if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value] }
-    if (result.length > 0 && value < 10) {
-      value = '0' + value
-    }
-    return value || 0
+    return value.toString().padStart(2, '0')
   })
   return time_str
 }
-
+/**
+  * 获取本地存储
+  * @param key 键
+  * @param data 数据
+  * @param expires 有效期
+  * @returns {*}
+  */
+export function localStore(key, data, expires) {
+  /**
+   * 基于本地存储的缓存模块
+   *
+   * @param {String} key 键名
+   * @param {any} data 数据
+   * @param {Number} expires 有效期(秒), 0永久
+   * @returns {any}
+   *
+   * 使用例子：
+   * localStore('aaa', { a: 1 }); //  永久存储
+   * localStore('bbb', { b: 2 }, 3); //  存储3秒
+   *
+   * setTimeout(function() {
+   *     console.log(localStore('aaa'), localStore('bbb')); //  {a: 1} {b: 2}
+   * }, 1000);
+   *
+   * setTimeout(function() {
+   *     console.log(localStore('aaa'), localStore('bbb')); //  {a: 1} undefined
+   * }, 4000);
+   */
+  const localStorage = window.localStorage;
+  //  不兼容返回空
+  if (!localStorage) {
+    return undefined;
+  }
+  const now = +new Date(); //  当前时间戳
+  //  有值则存储数据
+  if (data) {
+    const storeData = {
+      data,
+      expires: 0 //  有效期
+    };
+    if (expires) {
+      storeData.expires = now + (expires * 1000); //  到期时间戳
+    }
+    //  无法存入情况
+    try {
+      return localStorage.setItem(key, JSON.stringify(storeData));
+    } catch (er) {
+      //  不做处理统一返回
+    }
+  } else {
+    //  获取数据
+    try {
+      const storeData = JSON.parse(localStorage.getItem(key));
+      if (storeData.expires === 0 || now <= storeData.expires) {
+        return storeData.data;
+      }
+      return localStorage.removeItem(key); //  清理过期数据
+    } catch (er) {
+      //  不做处理统一返回
+    }
+  }
+  return undefined;
+}
 /**
  * @param {number} time
  * @param {string} option
@@ -247,7 +309,7 @@ export function getTime(type) {
 export function debounce(func, wait, immediate) {
   let timeout, args, context, timestamp, result
 
-  const later = function() {
+  const later = function () {
     // 据上一次触发时间间隔
     const last = +new Date() - timestamp
 
@@ -264,7 +326,7 @@ export function debounce(func, wait, immediate) {
     }
   }
 
-  return function(...args) {
+  return function (...args) {
     context = this
     timestamp = +new Date()
     const callNow = immediate && !timeout
@@ -319,7 +381,7 @@ export function createUniqueString() {
 }
 
 /**
- * Check if an element has a class
+ * 判断某个元素是否包含某个class
  * @param {HTMLElement} elm
  * @param {string} cls
  * @returns {boolean}
@@ -329,7 +391,7 @@ export function hasClass(ele, cls) {
 }
 
 /**
- * Add class to element
+ * 原生添加class
  * @param {HTMLElement} elm
  * @param {string} cls
  */
@@ -338,7 +400,7 @@ export function addClass(ele, cls) {
 }
 
 /**
- * Remove class from element
+ * 移除class
  * @param {HTMLElement} elm
  * @param {string} cls
  */

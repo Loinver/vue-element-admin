@@ -30,6 +30,7 @@ module.exports = {
 
   outputDir: process.env.outputDir,
   assetsDir: 'static',
+  lintOnSave: isProduction,
   productionSourceMap: false,
 
   devServer: {

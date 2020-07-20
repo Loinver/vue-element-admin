@@ -45,7 +45,7 @@ export function numberFormatter(num, digits) {
   ]
   for (let i = 0; i < si.length; i++) {
     if (num >= si[i].value) {
-      return (num / si[i].value + 0.1).toFixed(digits).replace(/\.0+$|(\.[0-9]*[1-9])0+$/, '$1') + si[i].symbol
+      return (num / si[i].value).toFixed(digits).replace(/\.0+$|(\.[0-9]*[1-9])0+$/, '$1') + si[i].symbol
     }
   }
   return num.toString()
@@ -72,7 +72,7 @@ export function uppercaseFirst(string) {
  */
 export function formatTimer([ms, isDay]) {
   if (ms === 0 || ms === null) {
-    return ''
+    return '-'
   } else {
     const dt = new Date(Number(ms));
     if (isDay) {
@@ -93,104 +93,4 @@ export function formatTimer([ms, isDay]) {
  */
 export function formatMoney(val) {
   return parseFloat(val / 100).toFixed(2)
-}
-/**
- * 获取终端名称
- * @param {*} val
- */
-export function getClientName(val) {
-  let str = [];
-  if (typeof val === Array) {
-    if (val && val.length > 0) {
-      str = val.map(item => {
-        return item.name;
-      });
-    }
-  } else {
-    str = ['设置错误']
-  }
-  return str.join(',');
-}
-/**
- * 获取属性名称
- * @param {*} val
- */
-export function getNewsType(val) {
-  switch (val) {
-    case null:
-      return "无";
-    case "1":
-      return "轮播banner";
-    case "2":
-      return "头条";
-    default:
-      return "轮播banner，头条";
-  }
-}
-/**
- * 获取跳转方式
- * @param {*} val
- */
-export function getLinkType(val) {
-  switch (val) {
-    case '0':
-    case null:
-      return "无";
-    case "1":
-      return "链接";
-    case "2":
-      return "富文本";
-    default:
-      return "其他";
-  }
-}
-/**
- * 获取用户组
- * @param {*} val
- */
-export function getUserGroup(val) {
-  switch (val) {
-    case '0':
-    case null:
-      return "无";
-    case "1":
-      return "全部用户";
-    case "2":
-      return "注册用户";
-    default:
-      return "其他";
-  }
-}
-/**
- * 获取消息发送状态
- * @param {*} val
- */
-export function getMsgPushStatus(val) {
-  switch (val) {
-    case 0:
-      return "已发送";
-    case 1:
-      return "推送中";
-    case 2:
-      return "推送成功";
-    case 3:
-      return "推送失败";
-    case 4:
-      return '取消推送'
-    case 5:
-      return '未推送'
-  }
-}
-/*
- * 区域转换
- * @param {*} val
- */
-export function getAreaName(val) {
-  let str = [];
-  if (val && val.length > 0) {
-    str = val.map(item => {
-      return item.name;
-    });
-  }
-  return str.join(',');
 }

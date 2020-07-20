@@ -9,7 +9,7 @@ axios.defaults.withCredentials = true // 若跨域请求需要带 cookie 身份�
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
   withCredentials: true, // send cookies when cross-domain requests
-  timeout: 10000, // request timeout
+  timeout: 60000, // request timeout
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
   }
@@ -19,7 +19,20 @@ const service = axios.create({
 service.interceptors.request.use(
   config => {
     config.headers.token = getToken();
-    config.data = qs.stringify(config.data);
+    if (config.headers['Content-Type'] === 'application/x-www-form-urlencoded') {
+      config.data = qs.stringify(config.data);
+    } else if (config.headers['Content-Type'] === 'multipart/form-data;charset=UTF-8') {
+      return config
+    } else if (config.headers['Content-Type'].indexOf('multipart/form-data') !== -1) {
+      const formData = new FormData();
+      Object.keys(config.data).map(key => {
+        formData.append(key, config.data[key])
+      })
+      config.data = formData
+      return config
+    } else {
+      config.headers['Content-Type'] = 'application/json'
+    }
     return config
   },
   error => {

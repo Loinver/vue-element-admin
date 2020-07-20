@@ -105,3 +105,34 @@ export function isNumber(str) {
 export function isMobile(str) {
   return /^(?:(?:\+|00)86)?1(?:(?:3[\d])|(?:4[5-7|9])|(?:5[0-3|5-9])|(?:6[5-7])|(?:7[0-8])|(?:8[\d])|(?:9[1|8|9]))\d{8}$/.test(str)
 }
+/**
+ * @description 检测字符串
+ * @param str 待处理字符串
+ * @param type 待检测的类型
+ */
+export function checkType(str, type) {
+  switch (type) {
+    case 'email':
+      return /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/.test(str);
+    case 'mobile':
+      return /^1[3|4|5|7|8|9][0-9]{9}$/.test(str);
+    case 'tel':
+      return /^(0\d{2,3}-\d{7,8})(-\d{1,4})?$/.test(str);
+    case 'number':
+      return /^[0-9]$/.test(str);
+    case 'english':
+      return /^[a-zA-Z]+$/.test(str);
+    case 'text':
+      return /^\w+$/.test(str);
+    case 'chinese':
+      return /^[\u4E00-\u9FA5]+$/.test(str);
+    case 'lower':
+      return /^[a-z]+$/.test(str);
+    case 'upper':
+      return /^[A-Z]+$/.test(str);
+    case 'idcard':
+      return /(^\d{8}(0\d|10|11|12)([0-2]\d|30|31)\d{3}$)|(^\d{6}(18|19|20)\d{2}(0\d|10|11|12)([0-2]\d|30|31)\d{3}(\d|X|x)$)/.test(str);
+    default:
+      return true;
+  }
+}
