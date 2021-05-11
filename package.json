@@ -18,7 +18,7 @@
     "element-ui": "^2.13.2",
     "fuse.js": "^6.0.3",
     "js-cookie": "2.2.1",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "lodash.find": "^4.6.0",
     "normalize.css": "8.0.1",
     "nprogress": "0.2.0",
